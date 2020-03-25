@@ -1,0 +1,18 @@
+#lang racket
+(define squareroot
+(lambda (x)
+(squareroot-iter 1 x)))
+
+(define squareroot-iter
+(lambda (guess x)
+(if (good-enough? guess x)
+guess
+(squareroot-iter (improve guess x) x))))
+
+(define good-enough?
+(lambda (guess x)
+(< (abs (- (* guess guess) x)) 0.0000000001)))
+
+(define improve
+(lambda (guess x)
+(/ (+ guess (/ x guess)) 2)))

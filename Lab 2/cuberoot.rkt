@@ -1,0 +1,28 @@
+#lang racket
+(define cuberoot
+  (lambda (x)
+    (cuberoot-iter 1 x)))
+  ; This block is the main block for the funktion which runs
+  ; an inner function called cuberoot-iter and sets the base guess att 1.0
+
+(define cuberoot-iter
+  (lambda (guess x)
+    (if (good-enough? guess x)
+        guess
+        (cuberoot-iter (improve guess x) x))))
+  ; On this block we receive our guess value and the value of x which is inputed by the user  
+  ; we then check if our guess is as precise as we want it to be using the good-enough? function
+  ; below and if not we will improve our guess to get a better result using improve function below
+
+(define good-enough?
+  (lambda (guess x)
+    (< (abs (- (* guess guess guess) x)) 0.0001)))
+
+(define improve
+  (lambda (guess x)
+    (/ (+ (* 2 guess) (/ x (expt guess 2)))3)))
+
+
+; We can also use a much faster and less complicated the cube root as below
+(define (cuberoot2 x) (exp( / (log x) 3))) 
+  
