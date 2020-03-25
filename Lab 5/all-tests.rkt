@@ -1,0 +1,207 @@
+#lang racket
+
+;; all-tests.rkt -- Tests for lab 5. 
+
+;; Created by Freddie on Fri Sep 25 20:41:44 2015
+;; Modified by Alex on Mon Oct 05 22:17:00 2015
+;;     Wrote tests files, added cartesian set equality function,
+;;      removed diff tests.
+;;
+;; Last modified by Alex on Mon Nov 02 2015.
+;;     Fixed bugs. The previous version reported test failure
+;;      when (make-set (make-set x)) != (make-set x)
+;;     (when make-set was not idempotent)
+
+(provide (all-defined-out))
+
+;;;; Code being tested
+(require "set.rkt")
+
+;;;; Test functions
+(require "read.rkt")
+
+;; COMPARISON CODE for cartesian products.
+;; This has to work with students' code.
+
+(define (is-2-vector? v)
+  (and (vector? v) (= (vector-length v) 2))
+  )
+
+;; returns true when s1
+;; is a cartesian product
+(define (is-cart-product? s1)
+  (andmap is-2-vector? s1)
+  )
+
+;; vp1, vp2 are vectors of length 2,
+;; vpi = #(s1 s2)
+;; Each element is a set.
+;; Each element is compared with the other at same position
+;; with same-set?
+(define (vec-pairs-equal? vp1 vp2)
+  (and (is-2-vector? vp1) 
+       (is-2-vector? vp2)
+       (same-elem? (vector-ref vp1 0) (vector-ref vp2 0))
+       (same-elem? (vector-ref vp1 1) (vector-ref vp2 1))
+       )
+  )
+
+
+(define (transform-vector-with-make-set vec)
+  (map (lambda (2-elem-vec)
+         (let ((a (vector-ref 2-elem-vec 0))
+               (b (vector-ref 2-elem-vec 1)))
+           (vector (if (list? a) (make-set a) a)
+                   (if (list? b) (make-set b) b))))
+       vec))
+
+
+;; s1, s2 are cartesian products
+;; returns true when s1 \subseteq s2
+(define (cart-subset? s1 s2)
+  (andmap ;; for every pair(a, b) in s1, it must hold that... 
+   (lambda (vec-pair)
+     (ormap ;; some pair(x, y) in s2...
+      (curry vec-pairs-equal? vec-pair) ;; must be equal to it
+      s2)
+     )
+   s1
+   )
+  )
+
+;; s1, s2 are cartesian products.
+;; returns true when the s1 = s2
+(define (same-cart-set? s1 s2)
+  (let ((trans-s2 (transform-vector-with-make-set s2)))
+    (and (cart-subset? s1 trans-s2)
+         (cart-subset? trans-s2 s1)
+         (= (length s1) (length trans-s2))
+         ))
+  )
+
+;;;; GENERATING TEST OUTPUT
+;; ------------------------
+;;
+;; (define (member-test)
+;;   (test-pairs-with-proc member? "member.in"))
+;; 
+;; (define (same-set-test-no-dups-no-sets)
+;;   (test-pairs-with-proc same-set? "same-set-all-equal-no-dups-no-inner-sets.in")
+;;   )
+;; 
+;; (define (same-set-test)
+;;   (test-pairs-with-proc same-set? "same-set-all-equal-no-dups-no-inner-sets.in")
+;;   (test-pairs-with-proc same-set? "same-set-all-equal-dups-no-inner-sets.in" )
+;;   (test-pairs-with-proc same-set? "same-set-all-equal-dups-inner-sets.in" )
+;;   (test-pairs-with-proc same-set? "same-set-none-equal-dups-no-inner-sets.in" )
+;;   (test-pairs-with-proc same-set? "same-set-large.in")
+;;   )
+;; 
+;; (define (same-elem-test)
+;;   (test-pairs-with-proc same-elem? "same-elem.in"))
+;; 
+;; (define (subset-test)
+;;   (test-pairs-with-proc subset? "subset.in"))
+;; 
+;; (define (no-compare-cartesian-test)
+;;   (test-pairs-with-proc
+;;    (lambda (s1 s2)
+;;      (cartesian-product (make-set s1)
+;;                         (make-set s2)
+;;                         )
+;;      ) "cartesian.in"))
+
+
+;; COMPARISON TESTS
+
+(define (wrap-do-make-set-binary-predicate f)
+  (lambda (e1 e2)
+    (let ((se1 (if (list? e1) (make-set e1) e1))
+          (se2 (if (list? e2) (make-set e2) e2))
+          )
+      (f se1 se2)
+      )
+    
+    ))
+
+(define (wrap-do-make-set-other-binary-predicate f)
+  (lambda (e1 e2)
+    (let ((se2 (if (list? e2) (make-set e2) e2))
+          )
+      (f e1 se2)
+      )
+    
+    ))
+
+
+(define (compare-subset-test)
+  (compare-output eq? (wrap-do-make-set-binary-predicate subset?)
+                  "subset?" "subset.in"
+                  "subset.out"))
+
+
+
+(define (compare-same-set-test)
+  (compare-output eq? (wrap-do-make-set-binary-predicate same-set?)
+                  "same-set?" "same-set-composed.in"
+                  "same-set-composed.out"))
+
+
+
+(define (compare-same-elem-test)
+  (compare-output eq?
+                  (wrap-do-make-set-binary-predicate same-elem?)
+                  "same-elem?" "same-elem.in"
+                  "same-elem.out"))
+
+(define (compare-member-test)
+  (compare-output eq?
+                  (wrap-do-make-set-binary-predicate member?)
+                  "member?" "member.in" "member.out")
+  )
+
+(define (compare-member-very-large-test)
+  (compare-output eq? (wrap-do-make-set-binary-predicate member?)
+                  "member?" "member-large.in" "member-large.out")
+  )
+
+(define (union-test)
+  (compare-output (wrap-do-make-set-other-binary-predicate same-set?) ;; jämför med
+                  (wrap-do-make-set-binary-predicate union)
+                  "union" "union.in" "union.out"))
+
+(define (intersection-test)
+  (compare-output (wrap-do-make-set-other-binary-predicate same-set?)
+                  (wrap-do-make-set-binary-predicate intersection)
+                  "intersection" "intersection.in" "intersection.out"))
+
+(define (difference-test)
+  (compare-output (wrap-do-make-set-other-binary-predicate same-set?)
+                  (wrap-do-make-set-binary-predicate difference)
+                  "difference" "difference.in" "difference.out"))
+
+
+
+(define (cartesian-test)
+  (compare-output
+   same-cart-set?
+   (wrap-do-make-set-binary-predicate cartesian-product)
+   "cartesian" "cartesian.in" "cartesian.out"))
+
+
+(define (all-tests)
+  (compare-same-elem-test)
+  (compare-member-test)
+  (compare-subset-test)
+  (compare-same-set-test)
+    
+  (union-test)
+  (intersection-test)
+  (difference-test)
+  (cartesian-test)
+
+  ;; member-very large doesn't have to finish in reasonable time
+  ;; (compare-member-very-large-test)
+  )
+
+(all-tests)

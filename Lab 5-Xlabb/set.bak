@@ -1,0 +1,239 @@
+#lang racket
+
+(require (lib "trace.ss"))
+
+
+;; Assignment 1
+
+
+;; make-object -- constructor for making diffrent types of objects.
+(define make-object
+  (lambda (type value)
+    (cons type value)))
+
+
+;; type -- selector for the type of an object
+(define type
+  (lambda (procedure)
+    (car procedure)))
+
+;; value -- selector for the value of an object
+(define value
+  (lambda (procedure)
+    (cdr procedure)))
+
+;;set? -- Predicate which checks if the argument/object is a set
+(define set?
+  (lambda (set)
+    (cond
+      ((null? set) #f)
+      ((list? set) (if (eq? (type set) 'set) #t #f))
+      (else #f))))
+
+;; empty? -- Predicate that checks if an object is empty or not
+(define empty?
+  (lambda (set)
+    (cond
+      ((set? set) (if (null? (value set)) #t #f))
+      (else (if (null? set) #t #f)))))
+
+;; del-dup -- procedure for removing all of the dupplicates in an object
+(define del-dup
+  (lambda (obj)
+    (define iter
+      (lambda (obj result)
+        (cond
+          ((empty? obj) result)
+          ((member? (first obj) (rest obj)) (iter (rest obj) result))
+          (else (iter (rest obj) (cons (first obj) result))))))
+    
+    (cond
+      ((or (empty? obj) (empty? (rest obj))) obj)
+      (else (reverse (iter obj '()))))))
+
+
+;; make-set -- procedure for creating a new set 
+(define make-set
+  (lambda (lst)
+    
+    (define iter
+      (lambda (lst result)
+        (cond
+          ((empty? lst) result)
+          ((list? (first lst)) (iter (rest lst) (insert (make-set (first lst)) result)))
+          (else (iter (rest lst) (insert (first lst) result))))))
+    
+    (make-object 'set (del-dup (reverse (iter lst '()))))))
+
+;; insert -- procedure that inserts an element in the begginging of a list or set
+(define insert
+  (lambda (el set)
+    (cond ((set? set) (make-set (cons el (value set))))
+          (else (cons el set)))))
+
+;; first -- returns the first element of a list or set
+(define first
+  (lambda (set)
+    (if (set? set) (car (value set))
+        (car set))))
+
+;; rest -- returns all of the elements other than the first on from a list or set
+(define rest
+  (lambda (set)
+    (if (set? set) (cdr (value set))
+        (cdr set))))
+
+;; set-length -- length of a list or set
+(define set-length
+  (lambda (set)
+    (cond
+      ((empty? set) 0)
+      (else (+ 1 (set-length (rest set)))))))
+
+;; the-empty-set -- returns an empty set
+(define the-empty-set
+  (lambda ()
+    (make-set '())))
+
+;; Uppgift 2
+
+;; member? -- predicate which checks if an element is a member of a set or not
+(define member?
+  (lambda (el set)
+    (cond
+      ((> 1 (set-length set)) #f)
+      ((same-elem? el (first set)) #t)
+      (else (member? el (rest set))))))
+
+;; subset? -- predicate which controls if all element in set1 are included in set2
+(define subset?
+  (lambda (set1 set2)
+    (cond
+      ((empty? set1) #t)
+      ((member? (first set1) set2) (subset? (rest set1) set2))
+      (else #f))))
+
+;; same-set? -- predicate which checks if all the element between two sets are the same
+(define same-set?
+  (lambda (set1 set2)
+    (if (and (subset? set1 set2) (subset? set2 set1)) #t
+        #f)))
+
+;; same-elem? -- predicate which checks if two elements are the same
+(define same-elem?
+  (lambda (e1 e2)
+    (cond
+      ((and (set? e1) (set? e2) (same-set? e1 e2)) #t)
+      ((and (symbol? e1) (symbol? e2) (eq? e1 e2)) #t)
+      ((and (number? e1) (number? e2) (= e1 e2)) #t)
+      ((and (vector? e1) (vector? e2) (equal? e1 e2)) #t)
+      (else #f))))
+
+;; Uppgift 4
+;; union -- procedure which returns a new set made of union of two sets
+(define union
+  (lambda (set1 set2)
+    (define insertel
+      (lambda (set1 set2 result)
+        (cond
+          ((and (empty? set1) (empty? set2)) result)
+          ((empty? set2) (insertel (rest set1) set2 (insert (first set1) result)))
+          (else (insertel set1 (rest set2) (insert (first set2) result))))))
+    (insertel set1 set2 (the-empty-set))))
+
+;; intersection -- procedure which returns a new set made of intersection of two sets
+(define intersection
+  (lambda (set1 set2)
+    (define sameel
+      (lambda (set1 set2 result)
+        (cond
+          ((and (empty? set1) (empty? set2)) result)
+          ((empty? set2)
+           (if (member? (first set1) set2) (sameel (rest set1) set2 (insert (first set1) result))
+               (sameel (rest set1) set2 result)))
+          (else
+           (if (member? (first set2) set1) (sameel set1 (rest set2) (insert (first set2) result))
+               (sameel set1 (rest set2) result))))))
+    (sameel set1 set2 (the-empty-set))))
+
+;; difference -- procedure which returns a new set made of difference between two sets
+(define difference
+  (lambda (set1 set2)
+    (define diff
+      (lambda (set1 set2 result)
+        (cond
+          ((empty? set1) result)
+          ((member? (first set1) set2) (diff (rest set1) set2 result))
+          (else (diff (rest set1) set2 (insert (first set1) result))))))
+    (diff set1 set2 (the-empty-set))))
+
+;; cartesian-product - procedure that takes in two sets as argument and returns a list of cartesian product of the elements
+;; of the sets in pairs
+(define cartesian-product
+  (lambda (set1 set2)
+    
+    (define lstelm
+      (lambda (set1 set2 result)
+        (if (empty? set2) result
+            (lstelm set1 (rest set2) (cons (first set1) result)))))
+    
+    (define vecup
+      (lambda (counter set1 set2 result)
+        (cond
+          ((empty? set2) result)
+          ((empty? set1) (del-dup result))
+          ((= counter 0) (vecup (set-length set2) set1 set2 result))
+          (else
+           (vecup (- counter 1) (rest set1) set2 (append (map vector (lstelm set1 set2 '()) (reverse (value set2))) result))))))
+    
+    (vecup (set-length set2) set1 set2 '())))
+
+;(cartesian-product (make-set '((A) (B) (C) (D) (E))) (make-set '((A) (B) (C) (D) (E) (A) (B))))
+
+;;   Tests
+;; Define myset
+;(define myset
+;  (make-set '(a (a b b (c b) 3) 5 5.0 (e s) (s e s))))
+;(make-set '(s e s))
+;; Uppgift 1
+;(set? myset)
+;(empty? myset)
+;(insert 1 myset)
+;(insert (make-set '(f b)) myset)
+;(first myset)
+;(first (insert (make-set '(f b)) myset))
+;(rest myset)
+;(set-length myset)
+
+;(member? 5 myset)
+;(member? 'a myset)
+;(member? (make-set '(1 2)) (make-set '(1 2 3)))
+;(member? 'x (make-set '(1 2 3 x)))
+;(member? (make-set '((x) 2)) (make-set '(4 2 (x))))
+;(subset? (make-set '((x) 2)) (make-set '(4 2 (x))))
+;(subset? (make-set '((x) 2 3)) (make-set '(4 2 (x))))
+;(member? (the-empty-set) (make-set '(a b c)))
+;(member? (make-set '(1)) (the-empty-set))
+;(member? (make-set '(1 2)) (make-set '((1 2) 3)))
+;(member? (make-set '(1)) (make-set '((1 2) 3)))
+;(member? (make-set '(1 (b))) (make-set '(3 2 ((b) 1))))
+;(member? (make-set '(1 2)) (make-set '(y (2 1))))
+;(same-set? (make-set '(1 2 a)) (make-set '(2 a 1)))
+;(same-set? (the-empty-set) (the-empty-set))
+;(same-set? (make-set '((1 2) 2 3)) (make-set '(2 3 (2 1))))
+;(same-set? (make-set '((2 3) a b)) (make-set '(2 3 (a b))))
+;(same-set? (make-set '(2 (b (z)) 4)) (make-set '(3 5 (z) (x))))
+
+;;Uppgift 4
+;(union (make-set '(1 2 (x (y 3) 4)))
+;         (make-set '(b 1 (a (r)))))
+
+;(intersection (make-set '(1 (2 (1)) 3 (1 2)))
+;            (make-set '(((1) 2) 3 4 (2 3))))
+
+;(difference (make-set '(1 (2 3) b)) (make-set '(b 1)))
+
+;(cartesian-product (make-set '(1 2 3)) (make-set '(a b)))
+
+
+(provide (all-defined-out))

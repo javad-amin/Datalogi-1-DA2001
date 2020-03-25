@@ -1,0 +1,102 @@
+import tkinter as tk
+import calcCommand
+
+def click(key):
+	
+	if key == '=':
+	# Fortsätt för evigt (= tills kommandot 'sluta' ges)
+		while True:
+			# Hämta ett eller flera kommandon
+			cmdString = entry.get()
+		
+			# om ingenting matades in så börja om
+			if cmdString == '':
+				continue
+		
+			# men om någonting matades in så gör en lista av inmatningen
+			cmdList = cmdString.split(' ')
+
+			# om kommandot inte är globalt eller användaren
+			# givit mer än ett kommando (en kommandosekvens)
+			else:
+				try:
+					# Skicka allt till kommandomodulen
+					calcCommand.validate(cmdList)
+
+					# Utför eventuella kommandon
+					calcCommand.doCommands()
+			
+				# Fånga alla fel som uppstår och skriv ut dem
+				except calcCommand.CalcError as ce:
+					print(ce)
+
+	
+def click(key):
+	global memory
+	if key == '=':
+		# Skydda mot kodinjektion
+		str1 = "-+0123456789."
+		print(entry.get())
+		if entry.get()[0] not in str1:
+			entry.insert(tk.END, "Första tecknet inte en av " + str1)
+		# Här börjar beräkningarna
+		try:
+			result = eval(entry.get())
+			entry.insert(tk.END, " = " + str(result))
+		except:
+			entry.insert(tk.END, "--> Fel!")
+	elif key == 'C':
+		entry.delete(0, tk.END)  # Töm displayen
+	elif key == '->M':
+		memory = entry.get()
+		# Hämta resultatet
+		if '=' in memory:
+			ix = memory.find('=')
+			memory = memory[ix+2:]
+		root.title('M=' + memory)
+	elif key == 'M->':
+		try:
+			entry.insert(tk.END, memory)
+		except:
+			pass
+	elif key == 'neg':
+		if '=' in entry.get():
+			entry.delete(0, tk.END)
+		try:
+			if entry.get()[0] == '-':
+				entry.delete(0)
+			else:
+				entry.insert(0, '-')
+		except IndexError:
+			pass
+	else:
+		# Föregående beräkning klar, töm diplayen
+		if '=' in entry.get():
+			entry.delete(0, tk.END)
+		entry.insert(tk.END, key)
+
+root = tk.Tk()
+root.title("Enkel kalkylator")
+
+btn_list = [
+'7',  '8', '9', '-', '+',
+'4',  '5', '6', '/', '^', 
+'1',  '2', '3', '*', ' ', 
+'0',  '.',  '=', 'C', 'sluta' ]
+
+# Skapa alla knappar i en enda loop
+i = 5
+
+for b in btn_list:
+	r, c = divmod(i, 5)
+	rel = 'ridge'
+	cmd = lambda x=b: click(x)
+	tk.Button(root,text=b,width=10,height=5,relief=rel,command=cmd)\
+.grid(row=r,column=c)
+	i += 1
+
+# använd en Entry widget som editerbar display
+entry = tk.Entry(root, width=33, bg="grey")
+entry.grid(row=0, column=0, columnspan=5)
+
+root.mainloop()

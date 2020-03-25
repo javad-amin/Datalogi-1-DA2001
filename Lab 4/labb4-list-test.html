@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+  <title></title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <style type="text/css">
+td.linenos { background-color: #f0f0f0; padding-right: 10px; }
+span.lineno { background-color: #f0f0f0; padding: 0 5px 0 5px; }
+pre { line-height: 125%; }
+body .hll { background-color: #ffffcc }
+body  { background: #f8f8f8; }
+body .c { color: #408080; font-style: italic } /* Comment */
+body .err { border: 1px solid #FF0000 } /* Error */
+body .k { color: #008000; font-weight: bold } /* Keyword */
+body .o { color: #666666 } /* Operator */
+body .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+body .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+body .cp { color: #BC7A00 } /* Comment.Preproc */
+body .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+body .c1 { color: #408080; font-style: italic } /* Comment.Single */
+body .cs { color: #408080; font-style: italic } /* Comment.Special */
+body .gd { color: #A00000 } /* Generic.Deleted */
+body .ge { font-style: italic } /* Generic.Emph */
+body .gr { color: #FF0000 } /* Generic.Error */
+body .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+body .gi { color: #00A000 } /* Generic.Inserted */
+body .go { color: #888888 } /* Generic.Output */
+body .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+body .gs { font-weight: bold } /* Generic.Strong */
+body .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+body .gt { color: #0044DD } /* Generic.Traceback */
+body .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+body .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+body .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+body .kp { color: #008000 } /* Keyword.Pseudo */
+body .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+body .kt { color: #B00040 } /* Keyword.Type */
+body .m { color: #666666 } /* Literal.Number */
+body .s { color: #BA2121 } /* Literal.String */
+body .na { color: #7D9029 } /* Name.Attribute */
+body .nb { color: #008000 } /* Name.Builtin */
+body .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+body .no { color: #880000 } /* Name.Constant */
+body .nd { color: #AA22FF } /* Name.Decorator */
+body .ni { color: #999999; font-weight: bold } /* Name.Entity */
+body .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+body .nf { color: #0000FF } /* Name.Function */
+body .nl { color: #A0A000 } /* Name.Label */
+body .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+body .nt { color: #008000; font-weight: bold } /* Name.Tag */
+body .nv { color: #19177C } /* Name.Variable */
+body .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+body .w { color: #bbbbbb } /* Text.Whitespace */
+body .mb { color: #666666 } /* Literal.Number.Bin */
+body .mf { color: #666666 } /* Literal.Number.Float */
+body .mh { color: #666666 } /* Literal.Number.Hex */
+body .mi { color: #666666 } /* Literal.Number.Integer */
+body .mo { color: #666666 } /* Literal.Number.Oct */
+body .sb { color: #BA2121 } /* Literal.String.Backtick */
+body .sc { color: #BA2121 } /* Literal.String.Char */
+body .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+body .s2 { color: #BA2121 } /* Literal.String.Double */
+body .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+body .sh { color: #BA2121 } /* Literal.String.Heredoc */
+body .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+body .sx { color: #008000 } /* Literal.String.Other */
+body .sr { color: #BB6688 } /* Literal.String.Regex */
+body .s1 { color: #BA2121 } /* Literal.String.Single */
+body .ss { color: #19177C } /* Literal.String.Symbol */
+body .bp { color: #008000 } /* Name.Builtin.Pseudo */
+body .vc { color: #19177C } /* Name.Variable.Class */
+body .vg { color: #19177C } /* Name.Variable.Global */
+body .vi { color: #19177C } /* Name.Variable.Instance */
+body .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+  </style>
+</head>
+<body>
+<h2></h2>
+
+<div class="highlight"><pre><span class="kn">#lang </span><span class="nn">racket</span>
+
+<span class="p">(</span><span class="k">require</span> <span class="s2">&quot;list.rkt&quot;</span><span class="p">)</span>
+
+<span class="c1">;;;;;;;;;;;;;;;;;;</span>
+<span class="c1">;; Changes 19 sept 2015 by Alex Loiko:</span>
+<span class="c1">;;    * renamed &quot;*.scm&quot; -&gt; &quot;*.rkt&quot;, added &quot;#lang racket&quot;</span>
+<span class="c1">;;    * modularized tests into list-tests.rkt</span>
+<span class="c1">;;    * added short automated tests for all assignments. In particular:</span>
+<span class="c1">;;          - (list-ops-auto-test)</span>
+
+<span class="c1">;;;;;;;;;;</span>
+<span class="c1">;; Test of list functions (supplied by course team)</span>
+
+<span class="c1">;; list-test -- run list test with an (initially) empty list</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">list-test</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+    <span class="p">(</span><span class="n">list-edit</span> <span class="p">(</span><span class="n">list-create</span><span class="p">))))</span>
+
+<span class="c1">;; list-edit -- interactively test list manipulation functions</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">list-edit</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">display</span> <span class="s2">&quot;Edit operation (insert/delete/print/nth/first/rest/end): &quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="n">oper</span> <span class="p">(</span><span class="nb">read</span><span class="p">)))</span>
+      <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="k">or</span> <span class="p">(</span><span class="nb">eq?</span> <span class="n">oper</span> <span class="o">&#39;</span><span class="ss">insert</span><span class="p">)</span>
+                 <span class="p">(</span><span class="nb">eq?</span> <span class="n">oper</span> <span class="o">&#39;</span><span class="ss">i</span><span class="p">))</span>
+             <span class="p">(</span><span class="n">list-edit</span> <span class="p">(</span><span class="n">list-insert</span> <span class="p">(</span><span class="n">read-element</span> <span class="s2">&quot;Element to insert: &quot;</span><span class="p">)</span>
+                                     <span class="n">lst</span><span class="p">)))</span>
+            <span class="p">((</span><span class="k">or</span> <span class="p">(</span><span class="nb">eq?</span> <span class="n">oper</span> <span class="o">&#39;</span><span class="ss">delete</span><span class="p">)</span>
+                 <span class="p">(</span><span class="nb">eq?</span> <span class="n">oper</span> <span class="o">&#39;</span><span class="ss">d</span><span class="p">))</span>
+             <span class="p">(</span><span class="n">list-edit</span> <span class="p">(</span><span class="n">list-delete</span> <span class="p">(</span><span class="n">read-element</span> <span class="s2">&quot;Element to delete: &quot;</span><span class="p">)</span>
+                                     <span class="n">lst</span><span class="p">)))</span>
+            <span class="p">((</span><span class="k">or</span> <span class="p">(</span><span class="nb">eq?</span> <span class="n">oper</span> <span class="o">&#39;</span><span class="ss">nth</span><span class="p">)</span>
+                 <span class="p">(</span><span class="nb">eq?</span> <span class="n">oper</span> <span class="o">&#39;</span><span class="ss">n</span><span class="p">))</span>
+             <span class="p">(</span><span class="n">elem-print</span> <span class="p">(</span><span class="n">list-nth</span> <span class="p">(</span><span class="n">read-element</span> <span class="s2">&quot;Element number: &quot;</span><span class="p">)</span>
+                                   <span class="n">lst</span><span class="p">))</span>
+             <span class="p">(</span><span class="nb">newline</span><span class="p">)</span>
+             <span class="p">(</span><span class="n">list-edit</span> <span class="n">lst</span><span class="p">))</span>
+            <span class="p">((</span><span class="k">or</span> <span class="p">(</span><span class="nb">eq?</span> <span class="n">oper</span> <span class="o">&#39;</span><span class="ss">print</span><span class="p">)</span>
+                 <span class="p">(</span><span class="nb">eq?</span> <span class="n">oper</span> <span class="o">&#39;</span><span class="ss">p</span><span class="p">))</span>
+             <span class="p">(</span><span class="n">list-print</span> <span class="n">lst</span><span class="p">)</span>
+             <span class="p">(</span><span class="n">list-edit</span> <span class="n">lst</span><span class="p">))</span>
+            <span class="p">((</span><span class="k">or</span> <span class="p">(</span><span class="nb">eq?</span> <span class="n">oper</span> <span class="o">&#39;</span><span class="ss">rest</span><span class="p">)</span>
+                 <span class="p">(</span><span class="nb">eq?</span> <span class="n">oper</span> <span class="o">&#39;</span><span class="ss">r</span><span class="p">))</span>
+             <span class="p">(</span><span class="n">list-print</span> <span class="p">(</span><span class="n">list-rest</span> <span class="n">lst</span><span class="p">))</span>
+             <span class="p">(</span><span class="n">list-edit</span> <span class="n">lst</span><span class="p">))</span>
+            <span class="p">((</span><span class="k">or</span> <span class="p">(</span><span class="nb">eq?</span> <span class="n">oper</span> <span class="o">&#39;</span><span class="ss">first</span><span class="p">)</span>
+                 <span class="p">(</span><span class="nb">eq?</span> <span class="n">oper</span> <span class="o">&#39;</span><span class="ss">f</span><span class="p">))</span>
+             <span class="p">(</span><span class="n">elem-print</span> <span class="p">(</span><span class="n">list-first</span> <span class="n">lst</span><span class="p">))</span>
+             <span class="p">(</span><span class="nb">newline</span><span class="p">)</span>
+             <span class="p">(</span><span class="n">list-edit</span> <span class="n">lst</span><span class="p">))</span>
+            <span class="p">((</span><span class="k">or</span> <span class="p">(</span><span class="nb">eq?</span> <span class="n">oper</span> <span class="o">&#39;</span><span class="ss">end</span><span class="p">)</span>
+                 <span class="p">(</span><span class="nb">eq?</span> <span class="n">oper</span> <span class="o">&#39;</span><span class="ss">e</span><span class="p">))</span> <span class="n">lst</span><span class="p">)</span>
+            <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nb">display</span> <span class="s2">&quot;Unknown operation&quot;</span><span class="p">)</span>
+                  <span class="p">(</span><span class="nb">newline</span><span class="p">)</span>
+                  <span class="p">(</span><span class="n">list-edit</span> <span class="n">lst</span><span class="p">))))))</span>
+
+<span class="c1">;; Uses the interface in &quot;list.rkt&quot; to convert the list</span>
+<span class="c1">;; from your representation to ordinary Scheme lists</span>
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">your-list-to-scm-list</span> <span class="n">your-list</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="n">list-empty?</span> <span class="n">your-list</span><span class="p">)</span>
+      <span class="o">&#39;</span><span class="p">()</span>
+      <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="n">list-first</span> <span class="n">your-list</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">your-list-to-scm-list</span> <span class="p">(</span><span class="n">list-rest</span> <span class="n">your-list</span><span class="p">)))</span>
+      <span class="p">)</span>
+  <span class="p">)</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">run-tests</span> <span class="n">test-name</span> <span class="n">err-actual-expected-lst</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">map</span> <span class="p">(</span><span class="nb">curry</span> <span class="nb">apply</span>
+        <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">msg</span> <span class="n">your-answer</span> <span class="n">expected</span><span class="p">)</span>
+          <span class="p">(</span><span class="n">check-actual-expected</span> <span class="n">test-name</span> <span class="n">msg</span> <span class="p">(</span><span class="n">your-list-to-scm-list</span> <span class="n">your-answer</span><span class="p">)</span> <span class="n">expected</span><span class="p">)</span>
+          <span class="p">))</span>
+       <span class="n">err-actual-expected-lst</span> <span class="p">)</span>
+  <span class="p">(</span><span class="nb">displayln</span> <span class="p">(</span><span class="nb">format</span> <span class="s2">&quot;~a: All tests OK&quot;</span> <span class="n">test-name</span><span class="p">)))</span>
+  
+  
+       
+<span class="c1">;; Automated test function. Tests whether list operations work correctly.</span>
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">list-ops-auto-test</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let*</span> <span class="p">((</span><span class="n">new-list</span> <span class="p">(</span><span class="n">list-create</span><span class="p">))</span>      <span class="c1">;; define actual/expected answer pairs</span>
+         <span class="p">(</span><span class="n">singleton-42-list</span> <span class="p">(</span><span class="n">list-insert</span> <span class="mi">42</span> <span class="n">new-list</span><span class="p">))</span>
+         <span class="p">(</span><span class="n">two-el-list</span> <span class="p">(</span><span class="n">list-insert</span> <span class="mi">0</span> <span class="n">singleton-42-list</span><span class="p">))</span>
+         <span class="p">(</span><span class="n">three-el-list</span> <span class="p">(</span><span class="n">list-insert</span> <span class="mi">42</span> <span class="n">two-el-list</span><span class="p">))</span>
+         <span class="p">(</span><span class="n">four-el-list</span> <span class="p">(</span><span class="n">list-insert</span> <span class="mi">1</span> <span class="n">three-el-list</span><span class="p">))</span>
+         <span class="p">(</span><span class="n">remove-42-list</span> <span class="p">(</span><span class="n">list-delete</span> <span class="mi">42</span> <span class="n">four-el-list</span><span class="p">))</span>
+         <span class="p">(</span><span class="n">insert-len-list</span> <span class="p">(</span><span class="n">list-insert</span> <span class="p">(</span><span class="n">list-len</span> <span class="n">four-el-list</span><span class="p">)</span> <span class="n">remove-42-list</span><span class="p">))</span>
+         <span class="p">(</span><span class="n">insert-len-len-list</span> <span class="p">(</span><span class="n">list-insert</span> <span class="p">(</span><span class="n">list-len</span> <span class="n">new-list</span><span class="p">)</span> <span class="n">insert-len-list</span><span class="p">))</span>
+         <span class="p">(</span><span class="n">singleton-nth-1</span> <span class="p">(</span><span class="n">list-insert</span> <span class="p">(</span><span class="n">list-nth</span> <span class="mi">1</span> <span class="n">singleton-42-list</span><span class="p">)</span> <span class="n">insert-len-len-list</span><span class="p">))</span>
+         <span class="p">(</span><span class="n">list-nth-5</span> <span class="p">(</span><span class="n">list-insert</span> <span class="p">(</span><span class="n">list-nth</span> <span class="mi">4</span> <span class="n">singleton-nth-1</span><span class="p">)</span> <span class="n">singleton-nth-1</span><span class="p">))</span>
+         <span class="p">)</span>
+
+    <span class="p">(</span><span class="n">run-tests</span>
+     <span class="o">&#39;</span><span class="ss">list-ops-auto-test</span>
+     <span class="p">(</span><span class="nb">list</span>                    <span class="c1">;; each element has the format (&quot;info error message&quot; actual expected)</span>
+      <span class="p">(</span><span class="nb">list</span> <span class="s2">&quot;list-create should produce empty list&quot;</span> <span class="n">new-list</span> <span class="o">&#39;</span><span class="p">())</span>
+      <span class="p">(</span><span class="nb">list</span> <span class="s2">&quot;single insert should produce singleton&quot;</span> <span class="n">singleton-42-list</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
+      <span class="p">(</span><span class="nb">list</span> <span class="s2">&quot;list-first should return last inserted &quot;</span> <span class="n">two-el-list</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">0</span> <span class="mi">42</span><span class="p">))</span>
+      <span class="p">(</span><span class="nb">list</span> <span class="s2">&quot;list-delete should remove all occurances and not reverse the list&quot;</span> <span class="n">remove-42-list</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">0</span><span class="p">))</span>
+      <span class="p">(</span><span class="nb">list</span> <span class="s2">&quot;4-element lists should have length 4&quot;</span> <span class="n">insert-len-list</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">4</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">))</span>
+      <span class="p">(</span><span class="nb">list</span> <span class="s2">&quot;0-element lists should have length 0&quot;</span> <span class="n">insert-len-len-list</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">0</span> <span class="mi">4</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">))</span>
+      <span class="p">(</span><span class="nb">list</span> <span class="s2">&quot;list-nth is 1-indexed and works on singleton lists&quot;</span> <span class="n">singleton-nth-1</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">42</span> <span class="mi">0</span> <span class="mi">4</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">))</span>
+      <span class="p">(</span><span class="nb">list</span> <span class="s2">&quot;list-nth is 1-indexed and works on 4:th elements of length-5 lists&quot;</span> <span class="n">list-nth-5</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">42</span> <span class="mi">0</span> <span class="mi">4</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">))</span>
+      <span class="p">)</span>
+     <span class="p">)</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">do-to-each-test</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">run-tests</span>
+   <span class="o">&#39;</span><span class="ss">do-to-each-test</span>
+   <span class="p">(</span><span class="nb">list</span>
+    <span class="p">(</span><span class="nb">list</span> <span class="s2">&quot;map of 0-element list&quot;</span> <span class="p">((</span><span class="n">do-to-each-proc</span> <span class="p">(</span><span class="nb">curry</span> <span class="nb">+</span> <span class="mi">1</span><span class="p">))</span> <span class="p">(</span><span class="n">list-create</span><span class="p">))</span> <span class="o">&#39;</span><span class="p">())</span>
+    <span class="p">(</span><span class="nb">list</span> <span class="s2">&quot;map of 1-element list&quot;</span> <span class="p">((</span><span class="n">do-to-each-proc</span> <span class="p">(</span><span class="nb">curry</span> <span class="nb">+</span> <span class="mi">1</span><span class="p">))</span> <span class="p">(</span><span class="n">list-insert</span> <span class="mi">1</span> <span class="p">(</span><span class="n">list-create</span><span class="p">)))</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+    <span class="p">))</span>
+  <span class="p">)</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">accumulate-test</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">run-tests</span>
+   <span class="o">&#39;</span><span class="ss">accumulate-test</span>
+   <span class="p">(</span><span class="nb">list</span>
+    <span class="p">(</span><span class="nb">list</span> <span class="s2">&quot;accumulate of 1-element list (should return that single element)&quot;</span>
+          <span class="p">(</span><span class="n">list-insert</span>
+           <span class="p">((</span><span class="n">accumulate-proc</span> <span class="nb">+</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="n">list-insert</span> <span class="mi">1</span> <span class="p">(</span><span class="n">list-create</span><span class="p">)))</span>
+           <span class="p">(</span><span class="n">list-create</span><span class="p">)</span>
+           <span class="p">)</span>
+          <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+          <span class="p">)</span>
+    <span class="p">(</span><span class="nb">list</span> <span class="s2">&quot;accumulate of 2-element list, correct order of arguments to proc&quot;</span>
+          <span class="p">(</span><span class="n">list-insert</span>
+           <span class="p">((</span><span class="n">accumulate-proc</span> <span class="nb">cons</span> <span class="nb">null</span><span class="p">)</span> <span class="p">(</span><span class="n">list-insert</span> <span class="mi">2</span>
+                                              <span class="p">(</span><span class="n">list-insert</span> <span class="mi">1</span> <span class="p">(</span><span class="n">list-create</span><span class="p">))))</span>
+           <span class="p">(</span><span class="n">list-create</span><span class="p">)</span>
+           <span class="p">)</span>
+          <span class="o">&#39;</span><span class="p">((</span><span class="mi">2</span> <span class="mi">1</span><span class="p">))</span>
+          <span class="p">)</span>
+    <span class="p">)</span>
+   <span class="p">)</span>
+  
+  <span class="p">(</span><span class="nb">void</span> <span class="p">)</span>
+  <span class="p">)</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">add-n-test</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">(</span> <span class="p">(</span><span class="n">actual</span> <span class="p">(</span><span class="nb">map</span> <span class="n">add-n</span> <span class="p">(</span><span class="nb">list</span> <span class="mi">-42</span> <span class="mi">-1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">17511751</span> <span class="p">)))</span>
+         <span class="p">(</span><span class="n">expected</span> <span class="p">(</span><span class="nb">map</span> <span class="p">(</span><span class="nb">curry</span> <span class="nb">+</span><span class="p">)</span> <span class="p">(</span><span class="nb">list</span> <span class="mi">-42</span> <span class="mi">-1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">17511751</span> <span class="p">)))</span>
+         <span class="p">)</span>
+    <span class="p">(</span><span class="n">check-actual-expected</span> <span class="o">&#39;</span><span class="ss">add-n-test</span> <span class="s2">&quot;(add-n k) should produce a procedure that adds k to its input&quot;</span>
+                           <span class="p">(</span><span class="nb">map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="p">(</span><span class="n">f</span> <span class="mf">17511705.5</span><span class="p">))</span> <span class="n">actual</span><span class="p">)</span>
+                           <span class="p">(</span><span class="nb">map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="p">(</span><span class="n">f</span> <span class="mf">17511705.5</span><span class="p">))</span> <span class="n">expected</span><span class="p">)</span>
+                           <span class="p">)</span>
+    <span class="p">(</span><span class="nb">displayln</span> <span class="p">(</span><span class="nb">format</span> <span class="s2">&quot;~a: All tests OK&quot;</span> <span class="o">&#39;</span><span class="ss">add-n-test</span><span class="p">))</span>
+    <span class="p">))</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">even-odd-test</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">(</span> <span class="p">(</span><span class="n">simple-fkn</span> <span class="p">(</span><span class="n">even-odd</span> <span class="p">(</span><span class="nb">const</span> <span class="mi">10</span><span class="p">)</span> <span class="p">(</span><span class="nb">const</span> <span class="o">&#39;</span><span class="ss">hej</span><span class="p">)))</span>
+         <span class="p">(</span><span class="n">less-simple-fkn</span> <span class="p">(</span><span class="n">even-odd</span> <span class="nb">sqr</span> <span class="nb">sqrt</span><span class="p">))</span>
+         <span class="p">)</span>
+    <span class="p">(</span><span class="n">check-actual-expected</span> <span class="o">&#39;</span><span class="ss">add-n-test</span> <span class="s2">&quot;even-odd should work with simple fkns that don&#39;t care about input&quot;</span>
+                           <span class="p">(</span><span class="nb">map</span> <span class="n">simple-fkn</span> <span class="p">(</span><span class="nb">list</span> <span class="mi">-3</span> <span class="mi">-2</span> <span class="mi">-1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3333333333</span><span class="p">))</span>
+                           <span class="p">(</span><span class="nb">list</span> <span class="o">&#39;</span><span class="ss">hej</span> <span class="mi">10</span> <span class="o">&#39;</span><span class="ss">hej</span>  <span class="mi">10</span> <span class="o">&#39;</span><span class="ss">hej</span> <span class="mi">10</span> <span class="o">&#39;</span><span class="ss">hej</span><span class="p">)</span>
+                           <span class="p">)</span>
+    <span class="p">(</span><span class="n">check-actual-expected</span> <span class="o">&#39;</span><span class="ss">add-n-test</span> <span class="s2">&quot;even-odd should work with any functions&quot;</span>
+                           <span class="p">(</span><span class="nb">map</span> <span class="n">less-simple-fkn</span> <span class="p">(</span><span class="nb">list</span> <span class="mi">-4</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3333333333</span><span class="p">))</span>
+                           <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nb">sqr</span> <span class="mi">-4</span><span class="p">)</span> <span class="p">(</span><span class="nb">sqr</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">sqrt</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">sqr</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nb">sqrt</span> <span class="mi">3333333333</span><span class="p">))</span>
+                           <span class="p">)</span>
+    <span class="p">(</span><span class="nb">displayln</span> <span class="p">(</span><span class="nb">format</span> <span class="s2">&quot;~a: All tests OK&quot;</span> <span class="o">&#39;</span><span class="ss">even-odd-test</span><span class="p">))</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">choose-test</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">(</span> <span class="p">(</span><span class="n">simple-fkn</span> <span class="p">(</span><span class="n">choose</span> <span class="nb">even?</span> <span class="p">(</span><span class="nb">const</span> <span class="mi">10</span><span class="p">)</span> <span class="p">(</span><span class="nb">const</span> <span class="o">&#39;</span><span class="ss">hej</span><span class="p">)))</span>
+         <span class="p">(</span><span class="n">less-simple-fkn</span> <span class="p">(</span><span class="n">choose</span> <span class="nb">list?</span> <span class="nb">length</span> <span class="nb">sqr</span><span class="p">))</span>
+         <span class="p">)</span>
+    <span class="p">(</span><span class="n">check-actual-expected</span> <span class="o">&#39;</span><span class="ss">add-n-test</span> <span class="s2">&quot;choose should work with simple fkns that don&#39;t care about input&quot;</span>
+                           <span class="p">(</span><span class="nb">map</span> <span class="n">simple-fkn</span> <span class="p">(</span><span class="nb">list</span> <span class="mi">-3</span> <span class="mi">-2</span> <span class="mi">-1</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3333333333</span><span class="p">))</span>
+                           <span class="p">(</span><span class="nb">list</span> <span class="o">&#39;</span><span class="ss">hej</span> <span class="mi">10</span> <span class="o">&#39;</span><span class="ss">hej</span>  <span class="mi">10</span> <span class="o">&#39;</span><span class="ss">hej</span> <span class="mi">10</span> <span class="o">&#39;</span><span class="ss">hej</span><span class="p">)</span>
+                           <span class="p">)</span>
+    <span class="p">(</span><span class="n">check-actual-expected</span> <span class="o">&#39;</span><span class="ss">add-n-test</span> <span class="s2">&quot;choose should work with any functions&quot;</span>
+                           <span class="p">(</span><span class="nb">map</span> <span class="n">less-simple-fkn</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nb">list</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nb">list</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">)</span> <span class="mi">-4</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3333333333</span><span class="p">))</span>
+                           <span class="p">(</span><span class="nb">list</span> <span class="mi">2</span> <span class="mi">2</span> <span class="p">(</span><span class="nb">sqr</span> <span class="mi">-4</span><span class="p">)</span> <span class="p">(</span><span class="nb">sqr</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">sqr</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">sqr</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nb">sqr</span> <span class="mi">3333333333</span><span class="p">))</span>
+                           <span class="p">)</span>
+    <span class="p">(</span><span class="nb">displayln</span> <span class="p">(</span><span class="nb">format</span> <span class="s2">&quot;~a: All tests OK&quot;</span> <span class="o">&#39;</span><span class="ss">choose-test</span><span class="p">))</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">all-tests</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">list-ops-auto-test</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">do-to-each-test</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">accumulate-test</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">add-n-test</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">even-odd-test</span><span class="p">)</span>
+  <span class="p">(</span><span class="n">choose-test</span><span class="p">)</span>
+  <span class="p">)</span>
+
+
+<span class="c1">;; compares actual with expected and prints error information</span>
+<span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="n">check-actual-expected</span> <span class="n">err-symbol</span> <span class="n">err-info</span> <span class="n">actual</span> <span class="n">expected</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">equal?</span> <span class="n">actual</span> <span class="n">expected</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">void</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">error</span> <span class="n">err-symbol</span> <span class="s2">&quot;~a</span><span class="se">\n</span><span class="s2">got ~a, expected ~a&quot;</span> <span class="n">err-info</span> <span class="n">actual</span> <span class="n">expected</span><span class="p">)</span>
+      <span class="p">)</span>
+  <span class="p">)</span>
+
+<span class="c1">;; read-element -- prompt the user with the given string, then</span>
+<span class="c1">;; return the answer</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">read-element</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">operation</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">display</span> <span class="n">operation</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">read</span><span class="p">)))</span>
+
+<span class="c1">;; list-print -- print each element in the given list, separated</span>
+<span class="c1">;; by &quot; &quot;</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">list-print</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span> <span class="p">((</span><span class="n">list-empty?</span> <span class="n">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">newline</span><span class="p">))</span>
+          <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nb">display</span> <span class="p">(</span><span class="n">list-first</span> <span class="n">lst</span><span class="p">))</span>
+                <span class="p">(</span><span class="nb">display</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+                <span class="p">(</span><span class="n">list-print</span> <span class="p">(</span><span class="n">list-rest</span> <span class="n">lst</span><span class="p">))))))</span>
+
+<span class="c1">;; elem-print -- print the given element</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">elem-print</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">display</span> <span class="n">elem</span><span class="p">)))</span>
+</pre></div>
+</body>
+</html>

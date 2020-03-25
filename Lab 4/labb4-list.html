@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+  <title></title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <style type="text/css">
+td.linenos { background-color: #f0f0f0; padding-right: 10px; }
+span.lineno { background-color: #f0f0f0; padding: 0 5px 0 5px; }
+pre { line-height: 125%; }
+body .hll { background-color: #ffffcc }
+body  { background: #f8f8f8; }
+body .c { color: #408080; font-style: italic } /* Comment */
+body .err { border: 1px solid #FF0000 } /* Error */
+body .k { color: #008000; font-weight: bold } /* Keyword */
+body .o { color: #666666 } /* Operator */
+body .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+body .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+body .cp { color: #BC7A00 } /* Comment.Preproc */
+body .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+body .c1 { color: #408080; font-style: italic } /* Comment.Single */
+body .cs { color: #408080; font-style: italic } /* Comment.Special */
+body .gd { color: #A00000 } /* Generic.Deleted */
+body .ge { font-style: italic } /* Generic.Emph */
+body .gr { color: #FF0000 } /* Generic.Error */
+body .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+body .gi { color: #00A000 } /* Generic.Inserted */
+body .go { color: #888888 } /* Generic.Output */
+body .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+body .gs { font-weight: bold } /* Generic.Strong */
+body .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+body .gt { color: #0044DD } /* Generic.Traceback */
+body .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+body .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+body .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+body .kp { color: #008000 } /* Keyword.Pseudo */
+body .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+body .kt { color: #B00040 } /* Keyword.Type */
+body .m { color: #666666 } /* Literal.Number */
+body .s { color: #BA2121 } /* Literal.String */
+body .na { color: #7D9029 } /* Name.Attribute */
+body .nb { color: #008000 } /* Name.Builtin */
+body .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+body .no { color: #880000 } /* Name.Constant */
+body .nd { color: #AA22FF } /* Name.Decorator */
+body .ni { color: #999999; font-weight: bold } /* Name.Entity */
+body .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+body .nf { color: #0000FF } /* Name.Function */
+body .nl { color: #A0A000 } /* Name.Label */
+body .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+body .nt { color: #008000; font-weight: bold } /* Name.Tag */
+body .nv { color: #19177C } /* Name.Variable */
+body .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+body .w { color: #bbbbbb } /* Text.Whitespace */
+body .mb { color: #666666 } /* Literal.Number.Bin */
+body .mf { color: #666666 } /* Literal.Number.Float */
+body .mh { color: #666666 } /* Literal.Number.Hex */
+body .mi { color: #666666 } /* Literal.Number.Integer */
+body .mo { color: #666666 } /* Literal.Number.Oct */
+body .sb { color: #BA2121 } /* Literal.String.Backtick */
+body .sc { color: #BA2121 } /* Literal.String.Char */
+body .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+body .s2 { color: #BA2121 } /* Literal.String.Double */
+body .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+body .sh { color: #BA2121 } /* Literal.String.Heredoc */
+body .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+body .sx { color: #008000 } /* Literal.String.Other */
+body .sr { color: #BB6688 } /* Literal.String.Regex */
+body .s1 { color: #BA2121 } /* Literal.String.Single */
+body .ss { color: #19177C } /* Literal.String.Symbol */
+body .bp { color: #008000 } /* Name.Builtin.Pseudo */
+body .vc { color: #19177C } /* Name.Variable.Class */
+body .vg { color: #19177C } /* Name.Variable.Global */
+body .vi { color: #19177C } /* Name.Variable.Instance */
+body .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+  </style>
+</head>
+<body>
+<h2></h2>
+
+<div class="highlight"><pre><span class="kn">#lang </span><span class="nn">racket</span>
+
+<span class="c1">;; list.rkt</span>
+<span class="c1">;;</span>
+<span class="p">(</span><span class="k">require</span> <span class="p">(</span><span class="k">lib</span> <span class="s2">&quot;trace.ss&quot;</span><span class="p">))</span>
+<span class="c1">;;;;;;;;;;</span>
+<span class="c1">;; Assignment 1</span>
+
+
+
+<span class="c1">;; list-create -- create an empty list </span>
+<span class="p">(</span><span class="k">define</span> <span class="n">list-create</span>
+  <span class="nb">list</span><span class="p">)</span>
+  
+
+<span class="c1">;; list-empty -- procedure that checks if a list is empty or not</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">list-empty?</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">empty?</span> <span class="n">lst</span><span class="p">)</span> <span class="no">#t</span>
+        <span class="no">#f</span><span class="p">)))</span>
+
+<span class="c1">;; list-insert -- procedure that inserts an element in the begginging of a list</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">list-insert</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">el</span> <span class="n">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">cons</span> <span class="n">el</span> <span class="n">lst</span><span class="p">)))</span>
+
+<span class="c1">;; list-delete -- procedure that removes all of the occurrences of a number in a list</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">list-delete</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">el</span> <span class="n">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">null?</span> <span class="n">lst</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">()</span>
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">eq?</span> <span class="n">el</span> <span class="p">(</span><span class="nb">car</span> <span class="n">lst</span><span class="p">))</span> <span class="p">(</span><span class="n">list-delete</span> <span class="n">el</span> <span class="p">(</span><span class="nb">cdr</span> <span class="n">lst</span><span class="p">))</span>
+            <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="nb">car</span> <span class="n">lst</span><span class="p">)</span> <span class="p">(</span><span class="n">list-delete</span> <span class="n">el</span> <span class="p">(</span><span class="nb">cdr</span> <span class="n">lst</span><span class="p">)))))))</span>
+
+<span class="c1">;; list-first -- returns the first element of a list</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">list-first</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">car</span> <span class="n">lst</span><span class="p">)))</span>
+
+<span class="c1">;; list-rest -- returns all of the elements other than the first on from a list</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">list-rest</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">cdr</span> <span class="n">lst</span><span class="p">)))</span>
+
+<span class="c1">;; list-len -- length of a list</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">list-len</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span>
+      <span class="p">((</span><span class="nb">null?</span> <span class="n">lst</span><span class="p">)</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">else</span> <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="p">(</span><span class="n">list-len</span> <span class="p">(</span><span class="nb">cdr</span> <span class="n">lst</span><span class="p">)))))))</span>
+
+<span class="c1">;; list-nth -- returns the n-th element of a list</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">list-nth</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">n</span> <span class="n">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="k">or</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="n">n</span> <span class="p">(</span><span class="n">list-len</span> <span class="n">lst</span><span class="p">))</span> <span class="p">(</span><span class="nb">&lt;</span> <span class="n">n</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="p">(</span><span class="nb">error</span> <span class="s2">&quot;Make sure that n is within the list!&quot;</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">eq?</span> <span class="n">n</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">(</span><span class="nb">car</span> <span class="n">lst</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">list-nth</span> <span class="p">(</span><span class="nb">-</span> <span class="n">n</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nb">cdr</span> <span class="n">lst</span><span class="p">))))))</span>
+    
+
+<span class="c1">;;;;;;;;;;</span>
+<span class="c1">;; Assignment 2</span>
+
+<span class="c1">;; add one (1) to the argument</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">add-one</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="n">x</span><span class="p">)))</span>
+
+<span class="c1">;; Does the same procedure to all of the elements of a list</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">do-to-each</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">proc</span> <span class="n">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">null?</span> <span class="n">lst</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">()</span>
+        <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="n">proc</span> <span class="p">(</span><span class="nb">car</span> <span class="n">lst</span><span class="p">))</span> <span class="p">(</span><span class="n">do-to-each</span> <span class="n">proc</span> <span class="p">(</span><span class="nb">cdr</span> <span class="n">lst</span><span class="p">))))))</span>
+
+<span class="c1">;; Does the same procedure to all of the elements of a list</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">do-to-each-svans</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">proc</span> <span class="n">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">define</span> <span class="n">helper</span>
+      <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">lst</span> <span class="n">result</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">null?</span> <span class="n">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">reverse</span> <span class="n">result</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">helper</span> <span class="p">(</span><span class="nb">cdr</span> <span class="n">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="n">proc</span> <span class="p">(</span><span class="nb">car</span> <span class="n">lst</span><span class="p">))</span> <span class="n">result</span><span class="p">)</span> <span class="p">))))</span>
+    <span class="p">(</span><span class="n">trace</span> <span class="n">helper</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">helper</span> <span class="n">lst</span> <span class="o">&#39;</span><span class="p">())))</span>
+
+
+
+<span class="c1">;; add n to the argument</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">add-n</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">+</span> <span class="n">x</span> <span class="n">n</span><span class="p">))))</span>
+
+<span class="c1">;; multiply n with the argument</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">mul-n</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">*</span> <span class="n">x</span> <span class="n">n</span><span class="p">))))</span>
+
+<span class="c1">;; Divide n with the argument</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">div-n</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">/</span> <span class="n">x</span> <span class="n">n</span><span class="p">))))</span>
+
+<span class="c1">;; Power n to the argument</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">power-n</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">expt</span> <span class="n">x</span> <span class="n">n</span><span class="p">))))</span>
+
+<span class="c1">;; a procedure that returns a diffrent procedure on an argument depending on if the element is odd or an even number</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">even-odd</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">proc-even</span> <span class="n">proc-odd</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">even?</span> <span class="n">x</span><span class="p">)</span> <span class="p">(</span><span class="n">proc-even</span> <span class="n">x</span><span class="p">)</span>
+          <span class="p">(</span><span class="n">proc-odd</span> <span class="n">x</span><span class="p">)))))</span>
+<span class="c1">;; same as above with the diffrence of being able to choose the pridicate</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">choose</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">predicate</span> <span class="n">proc-1</span> <span class="n">proc-2</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="n">predicate</span> <span class="n">x</span><span class="p">)</span> <span class="p">(</span><span class="n">proc-1</span> <span class="n">x</span><span class="p">)</span>
+          <span class="p">(</span><span class="n">proc-2</span> <span class="n">x</span><span class="p">)))))</span>
+
+<span class="c1">;; Applies a procedure between all of the elements of a list</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">accumulate</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">proc</span> <span class="n">id</span> <span class="n">lst</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">cond</span>
+      <span class="p">((</span><span class="nb">null?</span> <span class="n">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">error</span> <span class="s2">&quot;Does not work on an emtly list&quot;</span><span class="p">))</span>
+      <span class="p">((</span><span class="nb">empty?</span> <span class="p">(</span><span class="nb">cdr</span> <span class="n">lst</span><span class="p">))</span> <span class="p">(</span><span class="n">proc</span> <span class="p">(</span><span class="nb">car</span> <span class="n">lst</span><span class="p">)</span> <span class="n">id</span><span class="p">))</span>
+      <span class="p">((</span><span class="n">proc</span> <span class="p">(</span><span class="nb">car</span> <span class="n">lst</span><span class="p">)</span> <span class="p">(</span><span class="n">accumulate</span> <span class="n">proc</span> <span class="n">id</span> <span class="p">(</span><span class="nb">cdr</span> <span class="n">lst</span><span class="p">)))))))</span>
+
+<span class="c1">;;Another versoin of accumulate which takes a list as an argument and returns a procedure.</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">accumulate-proc</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">proc</span> <span class="n">id</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">cond</span>
+        <span class="p">((</span><span class="nb">null?</span> <span class="n">lst</span><span class="p">)</span> <span class="p">(</span><span class="nb">error</span> <span class="s2">&quot;Does not work on an emtly list&quot;</span><span class="p">))</span>
+        <span class="p">((</span><span class="nb">empty?</span> <span class="p">(</span><span class="nb">cdr</span> <span class="n">lst</span><span class="p">))</span> <span class="p">(</span><span class="n">proc</span> <span class="p">(</span><span class="nb">car</span> <span class="n">lst</span><span class="p">)</span> <span class="n">id</span><span class="p">))</span>
+        <span class="p">((</span><span class="n">proc</span> <span class="p">(</span><span class="nb">car</span> <span class="n">lst</span><span class="p">)</span> <span class="p">(</span><span class="n">accumulate</span> <span class="n">proc</span> <span class="n">id</span> <span class="p">(</span><span class="nb">cdr</span> <span class="n">lst</span><span class="p">))))))))</span>
+
+
+<span class="c1">;; a do to each function which returns a procedure which takes a list as an argument.</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">do-to-each-proc</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">proc</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">null?</span> <span class="n">lst</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">()</span>
+          <span class="p">(</span><span class="nb">cons</span> <span class="p">(</span><span class="n">proc</span> <span class="p">(</span><span class="nb">car</span> <span class="n">lst</span><span class="p">))</span> <span class="p">(</span><span class="n">do-to-each</span> <span class="n">proc</span> <span class="p">(</span><span class="nb">cdr</span> <span class="n">lst</span><span class="p">)))))))</span>
+
+
+<span class="c1">;;Tests, Uncomment to test all the functions</span>
+<span class="p">(</span><span class="k">define</span> <span class="n">lst</span> <span class="p">(</span><span class="nb">list</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">6</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">lst</span>
+<span class="c1">;&quot;(list-empty? lst)&quot; (list-empty? lst)</span>
+<span class="c1">;&quot;(list-empty? &#39;())&quot; (list-empty? &#39;())</span>
+<span class="c1">;&quot;(list-insert 99 lst)&quot; (list-insert 99 lst)</span>
+<span class="c1">;&quot;(list-delete 3 lst)&quot; (list-delete 3 lst)</span>
+<span class="c1">;&quot;(list-first (list-insert 99 lst))&quot; (list-first (list-insert 99 lst))</span>
+<span class="c1">;&quot;(list-rest (list-insert 99 lst))&quot; (list-rest (list-insert 99 lst))</span>
+<span class="c1">;&quot;(list-len lst)&quot; (list-len lst)</span>
+<span class="c1">;&quot;(list-nth 4 lst)&quot; (list-nth 4 lst)</span>
+<span class="c1">;&quot;(do-to-each add-one lst)&quot; (do-to-each add-one lst)</span>
+<span class="c1">;&quot;(do-to-each add-one &#39;())&quot; (do-to-each add-one &#39;())</span>
+<span class="c1">;&quot;(define add-two (add-n 2))&quot; (define add-two (add-n 2))</span>
+<span class="c1">;&quot;(add-two 3)&quot; (add-two 3)</span>
+<span class="c1">;&quot;(define half (div-n 2))&quot; (define half (div-n 2))</span>
+<span class="c1">;&quot;(define double (mul-n 2))&quot; (define double (mul-n 2))</span>
+<span class="c1">;&quot;(define half-double (even-odd half double))&quot; (define half-double (even-odd half double))</span>
+<span class="c1">;&quot;(do-to-each half-double mylist)&quot; (do-to-each half-double lst)</span>
+<span class="c1">;&quot;(define half-double-2 (choose even? half double))&quot; (define half-double-2 (choose even? half double))</span>
+<span class="c1">;&quot;(do-to-each half-double-2 lst)&quot; (do-to-each half-double-2 lst)</span>
+<span class="c1">;&quot;(accumulate + 0 lst)&quot; (accumulate + 0 lst)</span>
+<span class="c1">;&quot;(accumulate * 1 lst)&quot; (accumulate * 1 lst)</span>
+<span class="c1">;&quot;(accumulate cons &#39;() lst)&quot; (accumulate cons &#39;() lst)</span>
+<span class="c1">;&quot;(define sum (accumulate-proc + 0))&quot; (define sum (accumulate-proc + 0))</span>
+<span class="c1">;&quot;(sum lst)&quot; (sum lst)</span>
+<span class="c1">;&quot;(define sq-list (do-to-each-proc square))&quot; (define sq-list (do-to-each-proc sqr))</span>
+<span class="c1">;&quot;(sq-list mylist)&quot; (sq-list lst)</span>
+<span class="c1">;(trace do-to-each-svans)</span>
+<span class="c1">;(do-to-each-svans add-one &#39;(7 2 7 8)) (do-to-each-svans add-one &#39;(7 2 7 8))</span>
+
+<span class="p">(</span><span class="k">provide</span> <span class="p">(</span><span class="k">all-defined-out</span><span class="p">))</span>
+</pre></div>
+</body>
+</html>

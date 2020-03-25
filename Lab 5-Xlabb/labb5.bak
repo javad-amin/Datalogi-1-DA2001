@@ -1,0 +1,83 @@
+#lang racket
+
+(require (lib "trace.ss"))
+
+
+;; Assignment 1
+
+
+;;; make-set -- procedure for creating a new set 
+;(define make-set
+;  (lambda (lst)
+;    (define del-dup
+;      (lambda (list rest counter result)
+;        (cond
+;          ((= counter 0) result)
+;          ((not (eq? (car lst) (cadr lst)))
+;           (del-dup lst (- counter 1) (cons (car lst) (del-dup lst counter '())))))))
+;    (del-dup lst (cdr lst) (list-length lst) '())))
+
+
+;; themaker -- constructor for making diffrent procedure types.
+(define themaker
+  (lambda (type value)
+    (cons type value)))
+
+
+;; type -- selector for the type of a procedure
+(define type
+  (lambda (procedure)
+    (car procedure)))
+
+;; value -- selector for the value of a procedure
+(define value
+  (lambda (procedure)
+    (cdr procedure)))
+
+
+;; make-set -- procedure for creating a new set 
+(define make-set
+  (lambda (lst)
+    (define iter
+      (lambda (lst)
+        (cond
+          ((null? lst) '())
+          ((list? (car lst)) (cons (make-set (car lst)) (iter (cdr lst))))
+          (else (cons (car lst) (iter (cdr lst)))))))
+    (cons 'set (iter lst))))
+
+;;set? -- Predicate which checks if the argument is a set
+(define set?
+  (lambda (x)
+    (list? x)))
+
+;; insert -- procedure that inserts an element in the begginging of a set
+(define insert
+  (lambda (el set)
+    (cons el set)))
+
+;; first -- returns the first element of a set
+(define first
+  (lambda (lst)
+    (car lst)))
+
+;; rest -- returns all of the elements other than the first on from a set
+(define rest
+  (lambda (lst)
+    (cdr lst)))
+
+;; set-length -- length of a set
+(define set-length
+  (lambda (lst)
+    (cond
+      ((empty? lst) 0)
+      (else (+ 1 (set-length (rest  lst)))))))
+
+;; set-length -- length of a set
+(define the-empty-set
+  (lambda ()
+    (make-set '())))
+
+
+(define myset
+  (make-set '(a (a b b (c b) 3) 5 5.0 (e s) (s e s))))

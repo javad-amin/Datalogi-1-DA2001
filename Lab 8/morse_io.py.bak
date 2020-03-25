@@ -1,0 +1,21 @@
+import morse as m
+
+
+def read_input():
+	'''
+	Läser in en inmattning från stdin.
+	Proceduren har inget argument.
+	Den returnerar en lista av alla ord i inmatningen.
+	'''
+	user_input = input('Mata in ett meddelande i klartext eller morsekod: ')
+	return user_input
+
+def write_output(translation):
+	'''
+	Skriver översätningen till stdout.
+	Argumentet är en lista.
+	Returnerar en sträng till stdout.
+	'''
+	result = ''.join(translation)
+	return result
+

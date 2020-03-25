@@ -1,0 +1,121 @@
+#lang racket
+
+;; list.rkt
+;;
+
+;;;;;;;;;;
+;; Assignment 1
+
+
+
+;; list-create -- create an empty list 
+(define list-create
+  list)
+  
+
+;; list-empty -- procedure that checks if a list is empty or not
+(define list-empty?
+  (lambda (lst)
+    (if (empty? lst) #t
+        #f)))
+
+;; list-insert -- procedure that inserts an element in the begginging of a list
+(define list-insert
+  (lambda (el lst)
+    (cons el lst)))
+
+;; list-delete -- procedure that removes all of the occurrences of a number in a list
+(define list-delete
+  (lambda (el lst)
+    (if (null? lst) '()
+        (if (eq? el (car lst)) (list-delete el (cdr lst))
+            (cons (car lst) (list-delete el (cdr lst)))))))
+
+;; list-first -- returns the first element of a list
+(define list-first
+  (lambda (lst)
+    (car lst)))
+
+;; list-rest -- returns all of the elements other than the first on from a list
+(define list-rest
+  (lambda (lst)
+    (cdr lst)))
+
+;; list-len -- length of a list
+(define list-len
+  (lambda (lst)
+    (cond
+      ((null? lst) 0)
+      (else (+ 1 (list-len (cdr lst)))))))
+
+;; list-nth -- returns the n-th element of a list
+(define list-nth
+  (lambda (n lst)
+    (if (or (> n (list-len lst)) (< n 1))
+        (error "Make sure that n is within the list!")
+        (if (eq? n 1)
+            (car lst)
+            (list-nth (- n 1) (cdr lst))))))
+    
+
+;;;;;;;;;;
+;; Assignment 2
+
+;; add one (1) to the argument
+(define add-one
+  (lambda (x)
+    (+ 1 x)))
+
+;; Does the same procedure to all of the elements of a list
+(define do-to-each
+  (lambda (proc lst)
+    (if (null? lst) '()
+        (cons (proc (car lst)) (do-to-each proc (cdr lst))))))
+    
+;; add n to the argument
+(define add-n
+  (lambda (x)
+    (+ 1 x)))
+
+
+(define mul-n
+"---Assignment 3 ---")
+
+(define div-n
+"---Assignment 3 ---")
+
+(define power-n
+"---Assignment 3 ---")
+
+
+(define even-odd
+"---Assignment 4 ---")
+
+
+(define choose
+"---Assignment 5 ---")
+
+(define accumulate
+"---Assignment 6/7 ---")
+
+(define acc-proc
+"---Assignment  8---")
+
+(define do-to-each-proc
+"---Assignment  8---")
+
+;(define lst (list 1 2 3 4 3 6 3))
+;"lst" lst
+;"(list-empty? lst)" (list-empty? lst)
+;"(list-empty? '())" (list-empty? '())
+;"(list-insert 99 lst)" (list-insert 99 lst)
+;"(list-delete 3 lst)" (list-delete 3 lst)
+;"(list-first (list-insert 99 lst))" (list-first (list-insert 99 lst))
+;"(list-rest (list-insert 99 lst))" (list-rest (list-insert 99 lst))
+;"(list-len lst)" (list-len lst)
+;"(list-nth 4 lst)" (list-nth 4 lst)
+;"(do-to-each add-one lst)" (do-to-each add-one lst)
+;"(do-to-each add-one '())" (do-to-each add-one '())
+
+
+(provide (all-defined-out))
